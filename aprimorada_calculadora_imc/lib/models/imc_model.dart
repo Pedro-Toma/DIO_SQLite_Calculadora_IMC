@@ -1,11 +1,20 @@
-class IMC {
-  
+
+class IMCModel {
+
+  int _id = 0;
   double _peso;
   double _altura;
   double _imc;
-  String _classificacao;
+  String _classificacao = "";
+  String _data = "";
 
-  IMC(this._peso, this._altura, this._imc, this._classificacao);
+  IMCModel(this._id, this._peso, this._altura, this._imc, this._classificacao, this._data);
+
+  int get id => _id;
+
+  set id(int id){
+    _id = id;
+  }
 
   double get peso => _peso;
 
@@ -29,6 +38,12 @@ class IMC {
 
   set classificacao(String classificacao){
     _classificacao = classificacao;
+  }
+
+  String get data => _data;
+
+  set data(String data){
+    _data = data;
   }
 
   static double calcularIMC(double peso, double altura){

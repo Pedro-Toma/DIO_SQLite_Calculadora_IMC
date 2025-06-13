@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "aprimorada_calculadora_imc",
+            "cwd": "aprimorada_calculadora_imc",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "aprimorada_calculadora_imc (profile mode)",
+            "cwd": "aprimorada_calculadora_imc",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "aprimorada_calculadora_imc (release mode)",
+            "cwd": "aprimorada_calculadora_imc",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

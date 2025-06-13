@@ -32,3 +32,55 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+
+# Flutter e Dart
+.dart_tool/
+.packages
+build/
+flutter_*.png
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.melos_tool/
+
+# Arquivos de lock e cache
+pubspec.lock
+*.lock
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Arquivos temporários
+*.tmp
+*.log
+*.swp
+*.bak
+.DS_Store
+
+# Sistema de build iOS/macOS
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Runner/GeneratedPluginRegistrant.*
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/app.flx
+macos/Flutter/ephemeral/
+macos/Runner/GeneratedPluginRegistrant.*
+
+# Android
+android/local.properties
+
+# Web
+web/.dart_tool/
+web/build/
+
+# Desktop (Linux, Windows)
+linux/Flutter/ephemeral/
+windows/Flutter/ephemeral/
+windows/Runner/GeneratedPluginRegistrant.*

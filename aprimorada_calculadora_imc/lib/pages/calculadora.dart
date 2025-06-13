@@ -1,6 +1,7 @@
+import 'package:aprimorada_calculadora_imc/repository/registros_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../models/imc.dart';
+import '../models/imc_model.dart';
 
 class Calculadora extends StatefulWidget {
   const Calculadora({super.key});
@@ -10,16 +11,31 @@ class Calculadora extends StatefulWidget {
 }
 
 class _CalculadoraState extends State<Calculadora> {
-  
+
+  RegistrosRepository registrosRepository = RegistrosRepository();
+
   var pesoController = TextEditingController();
   var alturaController = TextEditingController();
-  final _dados = <IMC>[];
+  var _registros = <IMCModel>[];
 
-  void adicionar(double peso, double altura) {
-    double imc = IMC.calcularIMC(peso, altura);
-    String classificacao = IMC.calcularClassificacao(imc);
-    IMC calculo = IMC(peso, altura, imc, classificacao);
-    _dados.add(calculo);
+  @override
+  void initState(){
+    super.initState();
+    carregarDados();
+  }
+
+  Future<void> carregarDados() async {
+    _registros = await registrosRepository.obterRegistros();
+    setState(() {});
+  }
+
+  void adicionar(double peso, double altura) async {
+    double imc = IMCModel.calcularIMC(peso, altura);
+    String classificacao = IMCModel.calcularClassificacao(imc);
+    String data = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+    IMCModel calculo = IMCModel(0, peso, altura, imc, classificacao, data);
+    await registrosRepository.salvar(calculo);
+    await carregarDados();
     setState(() {});
   }
 
@@ -156,42 +172,50 @@ class _CalculadoraState extends State<Calculadora> {
               ),
               Expanded(
                 child: ListView.separated(
-                  itemCount: _dados.length,
+                  itemCount: _registros.length,
                   itemBuilder: (BuildContext bd, int index) {
-                    var dado = _dados[index];
-                    return ListTile(
-                      title: Text("IMC: ${dado.imc.toStringAsFixed(2)} | ${dado.classificacao}",
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w700
-                        )
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text("Peso: ${dado.peso} kg",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("Altura: ${dado.altura} m",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                )
-                              ),
-                            ],
-                          ),
-                          Text("${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                            style: TextStyle(
-                              fontSize: 20,
-                            )
+                    var dado = _registros[index];
+                    return Dismissible(
+                      onDismissed: (DismissDirection dismissDirection) async {
+                        registrosRepository.remover(dado.id);
+                        await carregarDados();
+                        setState(() {});
+                      },
+                      key: Key(dado.id.toString()),
+                      child: ListTile(
+                        title: Text("IMC: ${dado.imc.toStringAsFixed(2)} | ${dado.classificacao}",
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w700
                           )
-                        ],
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("Peso: ${dado.peso} kg",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  )
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Altura: ${dado.altura} m",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  )
+                                ),
+                              ],
+                            ),
+                            Text(dado.data,
+                              style: TextStyle(
+                                fontSize: 20,
+                              )
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },
